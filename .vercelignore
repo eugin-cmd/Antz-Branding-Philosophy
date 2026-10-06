@@ -1,0 +1,9 @@
+# Only the site is published: index.html and the assets it uses
+.venv
+.DS_Store
+*.pdf
+*.md
+*.py
+*.png
+reference/Banner Images
+reference/icon_elements
