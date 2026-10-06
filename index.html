@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ANTZ Logo Elements</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f6f3ee;
+        --paper: #fffdf9;
+        --ink: #171b1b;
+        --muted: #5d625d;
+        --line: rgba(23, 27, 27, 0.14);
+        --card: #fbfaf7;
+        --forest: #18382f;
+        --forest-soft: #e5efe9;
+        --sage: #b3c6b7;
+        --sand: #e9e1d0;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        font-family: "Inter", "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.5;
+      }
+
+      .page {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 28px;
+      }
+
+      .topbar {
+        display: none;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0;
+        margin: 0;
+      }
+
+      .brand-logo {
+        display: block;
+        width: 150px;
+        height: auto;
+        max-width: 100%;
+        filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.12));
+      }
+
+      .hero {
+        position: relative;
+        width: 100vw;
+        margin: 0 0 0 calc(50% - 50vw);
+        padding: 0;
+        background: #f3efe9;
+        border-top: none;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+      }
+
+      .hero-brand {
+        position: absolute;
+        top: 18px;
+        left: 28px;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .brand-divider {
+        width: 1px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .brand-label {
+        display: inline-block;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.05rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .hero-symbol {
+        position: absolute;
+        left: 120px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+        width: min(360px, 30vw);
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(26px, 2.8vw, 42px);
+      }
+
+      .hero-symbol img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        opacity: 1;
+        filter: brightness(0) invert(1) drop-shadow(0 2px 18px rgba(0, 0, 0, 0.28));
+      }
+
+      .hero-mark {
+        position: absolute;
+        top: 50%;
+        right: 28px;
+        transform: translateY(-50%);
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hero-mark img {
+        display: block;
+        width: auto;
+        height: 537.109375px;
+        filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.12));
+      }
+
+      .hero-symbol-copy {
+        position: absolute;
+        left: 120px;
+        top: calc(50% + 210px);
+        transform: translateY(-50%);
+        z-index: 2;
+        max-width: 270px;
+        color: #ffffff;
+        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero-symbol-copy h3 {
+        margin: 0 0 8px;
+        font-size: 1.6rem;
+        line-height: 1.1;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .hero-symbol-copy p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .hero-symbol-copy::after {
+        content: "";
+        display: block;
+        width: 50%;
+        height: 2px;
+        margin-top: 14px;
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .hero-inner,
+      .hero-grid,
+      .hero-visual {
+        position: relative;
+        z-index: 0;
+      }
+
+      .hero-inner {
+        max-width: none;
+        margin: 0;
+      }
+
+      .eyebrow {
+        color: var(--forest);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-size: 0.75rem;
+        font-weight: 700;
+        margin-bottom: 18px;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: "Inter", "Segoe UI", sans-serif;
+        font-size: clamp(2.6rem, 5vw, 5rem);
+        line-height: 0.94;
+        letter-spacing: -0.06em;
+        max-width: 780px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        align-items: stretch;
+        margin-top: 0;
+      }
+
+      .intro {
+        display: none;
+      }
+
+      .hero-visual {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+
+      .hero-visual img {
+        display: block;
+        width: 100%;
+        height: 700px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 0;
+        background: #efeae2;
+      }
+
+      .stat-box {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 22px 22px 18px;
+        box-shadow: 0 12px 30px rgba(16, 24, 18, 0.03);
+      }
+
+      .stat-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      .stat-value {
+        font-family: "Inter", "Segoe UI", sans-serif;
+        font-size: clamp(2rem, 3vw, 3rem);
+        line-height: 1;
+        letter-spacing: -0.05em;
+      }
+
+      .symbol-showcase {
+        position: relative;
+        width: 100vw;
+        margin: 36px 0 0 calc(50% - 50vw);
+        background: linear-gradient(rgba(9, 15, 13, 0.52), rgba(9, 15, 13, 0.52)), url("reference/Banner Images/lioncloseup.jpg") center/cover no-repeat;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+
+      .symbol-showcase__inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        min-height: 540px;
+        padding: 48px 28px 54px;
+        display: grid;
+        grid-template-columns: 1fr 1.1fr;
+        gap: 40px;
+        align-items: center;
+        color: #fff;
+      }
+
+      .symbol-showcase__visual {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .symbol-figure {
+        width: min(420px, 100%);
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255,255,255,0.22);
+        background: rgba(255,255,255,0.06);
+        backdrop-filter: blur(4px);
+        box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+      }
+
+      .symbol-figure img {
+        display: block;
+        width: 72%;
+        height: auto;
+        filter: brightness(0) invert(1);
+      }
+
+      .symbol-showcase__copy {
+        max-width: 560px;
+      }
+
+      .symbol-showcase__copy .eyebrow {
+        display: inline-block;
+        color: rgba(255,255,255,0.8);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.7rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+
+      .symbol-showcase__copy h3 {
+        margin: 0 0 16px;
+        font-size: clamp(2.4rem, 4vw, 4.5rem);
+        line-height: 0.92;
+        letter-spacing: -0.06em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .symbol-showcase__copy p {
+        margin: 0 0 28px;
+        color: rgba(255,255,255,0.9);
+        font-size: 1rem;
+        line-height: 1.6;
+        max-width: 520px;
+      }
+
+      .symbol-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .symbol-nav {
+        appearance: none;
+        border: 1px solid rgba(255,255,255,0.4);
+        background: transparent;
+        color: #fff;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        font-size: 1.15rem;
+        cursor: pointer;
+      }
+
+      .symbol-nav:hover {
+        background: rgba(255,255,255,0.08);
+      }
+
+      .symbol-index {
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.74);
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        margin: 60px 0 18px;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        line-height: 1;
+        letter-spacing: -0.06em;
+        font-family: "Inter", "Segoe UI", sans-serif;
+      }
+
+      .section-head p {
+        margin: 0;
+        max-width: 520px;
+        color: var(--muted);
+      }
+
+      .elements-band {
+        width: 100vw;
+        margin: 60px 0 0 calc(50% - 50vw);
+        padding: 64px 0 72px;
+        background: linear-gradient(115deg, #EAFAF9 0%, #F3F4F1 50%, #FAEEEA 100%);
+      }
+
+      .elements-band__inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 28px;
+      }
+
+      .elements-band .section-head {
+        margin-top: 0;
+        border-top: none;
+        padding-top: 0;
+        margin-bottom: 28px;
+      }
+
+      .tint-records    { --tint: #BFF3D2; --tint-comp: #FFD3D3; --tint-ink: #1D6B43; }
+      .tint-animal     { --tint: #FFF5BF; --tint-comp: #BFF5F2; --tint-ink: #6E5608; }
+      .tint-medical    { --tint: #D3F3D7; --tint-comp: #FBF7D2; --tint-ink: #2A6A62; }
+      .tint-mortality  { --tint: #FFF5BF; --tint-comp: #FFD3D3; --tint-ink: #8A4424; }
+      .tint-operations { --tint: #BFEBF5; --tint-comp: #F9CCD4; --tint-ink: #1E5D77; }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        --tint-soft2: color-mix(in srgb, var(--tint-comp) 32%, #fff);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(180deg, #fff 45%, var(--tint-soft2) 100%);
+        border: 1px solid #E4EAE7;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 1px 2px rgba(14, 23, 21, 0.04);
+        transition: transform 0.5s cubic-bezier(.22,.8,.24,1), box-shadow 0.5s cubic-bezier(.22,.8,.24,1);
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 22px 44px -22px rgba(14, 40, 34, 0.38), 0 2px 6px rgba(14, 23, 21, 0.05);
+      }
+
+      .card-thumb {
+        position: relative;
+        display: block;
+        height: 150px;
+        margin: 15px 15px 0;
+        border-radius: 11px;
+        overflow: hidden;
+        background: linear-gradient(135deg, var(--tint) 0%, var(--tint-comp) 100%);
+        isolation: isolate;
+      }
+
+      .card-thumb::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 60% 70% at 85% 10%, rgba(255, 255, 255, 0.55), transparent 70%),
+          radial-gradient(ellipse 50% 60% at 10% 100%, rgba(255, 255, 255, 0.35), transparent 70%);
+        transition: opacity 0.6s ease;
+      }
+
+      .card:hover .card-thumb::before { opacity: 0.4; }
+
+      /* The SVG is used as a mask: its shape is kept at its own aspect ratio and
+         contained within the centred box, then filled with the card's ink colour */
+      .card-icon {
+        position: absolute;
+        inset: 44px 34px 16px;
+        z-index: 1;
+        background: var(--tint-ink);
+        -webkit-mask: var(--src) center / contain no-repeat;
+        mask: var(--src) center / contain no-repeat;
+      }
+
+      .card-num {
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        z-index: 1;
+        font-size: 27px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        line-height: 1;
+        color: var(--tint-ink);
+        opacity: 0.85;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 16px 15px 18px;
+        flex: 1;
+      }
+
+      .card h3 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+        color: #0E1715;
+      }
+
+      .card p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.45;
+        color: #44544A;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .card-foot {
+        margin-top: auto;
+        padding-top: 12px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--tint-ink);
+      }
+
+      /* ---------- Global zoo network ---------- */
+      .network-band {
+        position: relative;
+        width: 100vw;
+        margin: 0 0 0 calc(50% - 50vw);
+        padding: 96px 0 104px;
+        color: #fff;
+        overflow: hidden;
+        background:
+          radial-gradient(ellipse 50% 60% at 85% 20%, rgba(0, 214, 201, 0.16), transparent 70%),
+          radial-gradient(ellipse 45% 55% at 10% 90%, rgba(55, 189, 105, 0.18), transparent 70%),
+          linear-gradient(135deg, #0D2620 0%, #143A33 50%, #102B28 100%);
+      }
+
+      .network-band::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+        background-size: 48px 48px;
+        mask-image: radial-gradient(ellipse at 70% 40%, black 20%, transparent 75%);
+        pointer-events: none;
+      }
+
+      .network-band__inner {
+        position: relative;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 28px;
+      }
+
+      .network-eyebrow {
+        display: inline-block;
+        margin-bottom: 14px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #F5B89C;
+      }
+
+      .network-head {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px 64px;
+        align-items: end;
+        margin-bottom: 56px;
+      }
+
+      .network-head h2 {
+        margin: 0;
+        font-size: clamp(2.4rem, 4.6vw, 4rem);
+        line-height: 0.98;
+        letter-spacing: -0.045em;
+        font-weight: 700;
+      }
+
+      .network-head p {
+        margin: 0;
+        justify-self: end;
+        max-width: 460px;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      .network-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        align-items: center;
+      }
+
+      .network-copy h3 {
+        margin: 0 0 24px;
+        font-size: clamp(1.9rem, 3vw, 2.6rem);
+        line-height: 1.08;
+        letter-spacing: -0.035em;
+        font-weight: 700;
+        background: linear-gradient(100deg, #BFF3D2 0%, #FFF5BF 50%, #FFD3D3 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .network-copy p {
+        margin: 0 0 18px;
+        max-width: 560px;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.74);
+      }
+
+      .network-copy p.lead {
+        font-size: 1.15rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.94);
+      }
+
+      .network-copy p:last-child {
+        margin-bottom: 0;
+        padding-top: 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      /* The diagram: a square stage, so node positions (in %) sit on a true circle */
+      .network-visual {
+        position: relative;
+        width: min(100%, 560px);
+        aspect-ratio: 1;
+        justify-self: center;
+      }
+
+      .network-lines {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      .network-lines .orbit {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.14);
+        stroke-width: 1;
+        stroke-dasharray: 2 6;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .network-lines .orbit--inner {
+        stroke: rgba(255, 255, 255, 0.08);
+        stroke-dasharray: none;
+      }
+
+      .network-lines .spoke {
+        stroke: url(#spokeGrad);
+        stroke-width: 1.4;
+        vector-effect: non-scaling-stroke;
+        opacity: 0.7;
+      }
+
+      .network-lines .pulse {
+        stroke: #BFF3D2;
+        stroke-width: 2.2;
+        stroke-linecap: round;
+        vector-effect: non-scaling-stroke;
+        stroke-dasharray: 4 100;
+        animation: pulse 3.6s linear infinite;
+      }
+
+      @keyframes pulse {
+        from { stroke-dashoffset: 104; opacity: 0; }
+        15%  { opacity: 1; }
+        85%  { opacity: 1; }
+        to   { stroke-dashoffset: 0; opacity: 0; }
+      }
+
+      .network-core {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 30%;
+        aspect-ratio: 1;
+        transform: translate(-50%, -50%);
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04) 70%);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        box-shadow: 0 0 0 14px rgba(255, 255, 255, 0.03), 0 0 80px rgba(0, 214, 201, 0.25), 0 30px 60px -20px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(6px);
+      }
+
+      .network-core img {
+        width: 58%;
+        height: 58%;
+        object-fit: contain;
+      }
+
+      .network-node {
+        position: absolute;
+        left: var(--x);
+        top: var(--y);
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .network-node__tile {
+        position: relative;
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, var(--tint) 0%, var(--tint-comp) 100%);
+        box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.06), 0 14px 30px -10px rgba(0, 0, 0, 0.55);
+        transition: transform 0.5s cubic-bezier(.22,.8,.24,1);
+      }
+
+      .network-node:hover .network-node__tile { transform: translateY(-3px) scale(1.06); }
+
+      .network-node__tile span {
+        position: absolute;
+        inset: 13px;
+        background: var(--tint-ink);
+        -webkit-mask: var(--src) center / contain no-repeat;
+        mask: var(--src) center / contain no-repeat;
+      }
+
+      .network-node__label {
+        font-size: 0.66rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: rgba(255, 255, 255, 0.82);
+      }
+
+      .pillars {
+        margin-top: 72px;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .pillar {
+        position: relative;
+        padding: 26px 24px 28px;
+        border-radius: 18px;
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        transition: transform 0.5s cubic-bezier(.22,.8,.24,1), border-color 0.5s ease;
+      }
+
+      .pillar::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--tint), var(--tint-comp));
+        opacity: 0.85;
+      }
+
+      .pillar:hover {
+        transform: translateY(-4px);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .pillar__num {
+        display: block;
+        margin-bottom: 22px;
+        font-size: 2.1rem;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: 0.01em;
+        font-variant-numeric: tabular-nums;
+        background: linear-gradient(135deg, var(--tint), var(--tint-comp));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .pillar strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+
+      .pillar span:last-child {
+        font-size: 0.93rem;
+        line-height: 1.55;
+        color: rgba(255, 255, 255, 0.66);
+      }
+
+      @media (max-width: 1000px) {
+        .network-head,
+        .network-wrap { grid-template-columns: 1fr; }
+        .network-head p { justify-self: start; }
+        .network-wrap { gap: 56px; }
+        .pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+
+      @media (max-width: 640px) {
+        .page { padding-inline: 18px; }
+        .elements-band__inner,
+        .network-band__inner { padding-inline: 18px; }
+        .cards { grid-template-columns: 1fr; }
+        .section-head { display: block; }
+        .section-head p { margin-top: 10px; }
+        .network-band { padding: 64px 0 72px; }
+        .network-node__tile { width: 48px; height: 48px; border-radius: 14px; }
+        .network-node__tile span { inset: 10px; }
+        .network-node__label { font-size: 0.58rem; letter-spacing: 0.1em; }
+        .pillars { grid-template-columns: 1fr; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .card, .pillar, .network-node__tile { transition: none; }
+        .network-lines .pulse { animation: none; opacity: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <main>
+        <section class="hero">
+          <div class="hero-brand">
+            <div class="brand">
+              <img class="brand-logo" src="reference/antz-logo.svg" alt="ANTZ logo" />
+            </div>
+            <div class="brand-divider" aria-hidden="true"></div>
+            <span class="brand-label">ANTZ Branding Philosophy</span>
+          </div>
+          <div class="hero-symbol" aria-label="Brand symbol slide">
+            <img id="symbolImage" src="reference/icon_elements_svgs/lion.svg" alt="Lion emblem" />
+          </div>
+          <div class="hero-symbol-copy">
+            <h3 id="symbolTitle">LION</h3>
+            <p id="symbolBody">Leadership, authority and guardianship. It signals strength, confidence and trust in institutional care.</p>
+          </div>
+          <div class="hero-mark" aria-label="ANTZ mark">
+            <img src="reference/antz_logo14.svg" alt="ANTZ mark" />
+          </div>
+          <div class="hero-inner">
+            <div class="hero-grid">
+              <div class="hero-visual">
+                <img src="reference/Banner%20Images/lioncloseup.jpg" alt="Lion banner" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="elements-band">
+          <div class="elements-band__inner">
+          <div class="section-head">
+            <h2>Core elements</h2>
+            <p>Naturally, the letter ‘a’ of our logo stands for antz. But look a little closer and you’ll see there’s much more to it. Each icon within the logo has a rich meaning at its core, representing an aspect of our business, features and our purpose.</p>
+          </div>
+
+          <div class="cards">
+            <article class="card tint-records">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/lion.svg')" role="img" aria-label="Lion"></span>
+                <span class="card-num">01</span>
+              </span>
+              <div class="card-body">
+                <h3>Lion</h3>
+                <p>Leadership, authority and guardianship. It signals strength, confidence and trust in institutional care.</p>
+                <div class="card-foot">Leader / Majestic</div>
+              </div>
+            </article>
+
+            <article class="card tint-animal">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/swan.svg')" role="img" aria-label="Swan"></span>
+                <span class="card-num">02</span>
+              </span>
+              <div class="card-body">
+                <h3>Swan</h3>
+                <p>Elegance and grace. It brings refinement, calm stewardship and a high standard of care.</p>
+                <div class="card-foot">Elegance / Beauty</div>
+              </div>
+            </article>
+
+            <article class="card tint-medical">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/apple.svg')" role="img" aria-label="Apple"></span>
+                <span class="card-num">03</span>
+              </span>
+              <div class="card-body">
+                <h3>Apple</h3>
+                <p>Part of the fruits cluster. It stands for balanced diets and the daily nutrition planned for every animal.</p>
+                <div class="card-foot">Diet / Nutrition</div>
+              </div>
+            </article>
+
+            <article class="card tint-mortality">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/fruit.svg')" role="img" aria-label="Banana"></span>
+                <span class="card-num">04</span>
+              </span>
+              <div class="card-body">
+                <h3>Banana</h3>
+                <p>Part of the fruits cluster. It reflects feeding schedules, food preparation and keepers’ care in the kitchen.</p>
+                <div class="card-foot">Diet / Nutrition</div>
+              </div>
+            </article>
+
+            <article class="card tint-operations">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/fruits2.svg')" role="img" aria-label="Fruit"></span>
+                <span class="card-num">05</span>
+              </span>
+              <div class="card-body">
+                <h3>Fruit</h3>
+                <p>Part of the fruits cluster. It completes the story of variety, enrichment and well-managed nutrition.</p>
+                <div class="card-foot">Diet / Nutrition</div>
+              </div>
+            </article>
+
+            <article class="card tint-records">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/squirrel.svg')" role="img" aria-label="Squirrel"></span>
+                <span class="card-num">06</span>
+              </span>
+              <div class="card-body">
+                <h3>Squirrel</h3>
+                <p>Energy and quick movement. It gives a place to the small animals that are just as important as the large ones.</p>
+                <div class="card-foot">Active / Small animal</div>
+              </div>
+            </article>
+
+            <article class="card tint-animal">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/bird.svg')" role="img" aria-label="Flying on top"></span>
+                <span class="card-num">07</span>
+              </span>
+              <div class="card-body">
+                <h3>Flying on top</h3>
+                <p>Ambition and open skies. Sitting at the top of the ‘a’, it reminds us to aim high and protect freedom.</p>
+                <div class="card-foot">Aim high / Freedom</div>
+              </div>
+            </article>
+
+            <article class="card tint-medical">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/treee.svg')" role="img" aria-label="Tree"></span>
+                <span class="card-num">08</span>
+              </span>
+              <div class="card-body">
+                <h3>Tree</h3>
+                <p>Growth, habitat and ecological stability. It grounds the identity in nature, forests and sustainability.</p>
+                <div class="card-foot">Forest / Tall</div>
+              </div>
+            </article>
+
+            <article class="card tint-mortality">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/tiger.svg')" role="img" aria-label="Tiger / Panther"></span>
+                <span class="card-num">09</span>
+              </span>
+              <div class="card-body">
+                <h3>Tiger / Panther</h3>
+                <p>Power with precision. It speaks to agility, strength and the big cats in our care.</p>
+                <div class="card-foot">Agile / Strong</div>
+              </div>
+            </article>
+
+            <article class="card tint-operations">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/feather.svg')" role="img" aria-label="Feather"></span>
+                <span class="card-num">10</span>
+              </span>
+              <div class="card-body">
+                <h3>Feather</h3>
+                <p>Lightness and the written record. It reinforces learning, note-taking and knowledge that is easy to capture.</p>
+                <div class="card-foot">Light / Write</div>
+              </div>
+            </article>
+
+            <article class="card tint-records">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/giraffe.svg')" role="img" aria-label="Giraffe"></span>
+                <span class="card-num">11</span>
+              </span>
+              <div class="card-body">
+                <h3>Giraffe</h3>
+                <p>Wild and one of a kind. It speaks to species diversity, habitat range and a broad ecological view.</p>
+                <div class="card-foot">Wild / Unique</div>
+              </div>
+            </article>
+
+            <article class="card tint-animal">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/plus.svg')" role="img" aria-label="Plus"></span>
+                <span class="card-num">12</span>
+              </span>
+              <div class="card-body">
+                <h3>Plus</h3>
+                <p>Health and treatment. It represents veterinary care, medical records and the wellbeing of every animal.</p>
+                <div class="card-foot">Medical</div>
+              </div>
+            </article>
+
+            <article class="card tint-medical">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/magnifieer.svg')" role="img" aria-label="Magnifier"></span>
+                <span class="card-num">13</span>
+              </span>
+              <div class="card-body">
+                <h3>Magnifier</h3>
+                <p>Finding what matters. It stands for searchable records and data that is always within reach.</p>
+                <div class="card-foot">Searchable / Data</div>
+              </div>
+            </article>
+
+            <article class="card tint-mortality">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/feeder.svg')" role="img" aria-label="Feeder"></span>
+                <span class="card-num">14</span>
+              </span>
+              <div class="card-body">
+                <h3>Feeder</h3>
+                <p>Medicine and hands-on care. It reflects dosing, treatment plans and the attention behind every recovery.</p>
+                <div class="card-foot">Medicine / Care</div>
+              </div>
+            </article>
+
+            <article class="card tint-operations">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/egg.svg')" role="img" aria-label="Egg"></span>
+                <span class="card-num">15</span>
+              </span>
+              <div class="card-body">
+                <h3>Egg</h3>
+                <p>New life and breeding. It represents egg tracking, incubation and the next generation of each species.</p>
+                <div class="card-foot">Egg management</div>
+              </div>
+            </article>
+
+            <article class="card tint-records">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/heart.svg')" role="img" aria-label="Heart"></span>
+                <span class="card-num">16</span>
+              </span>
+              <div class="card-body">
+                <h3>Heart</h3>
+                <p>Compassion and ethical care. It brings human values to the centre of the institution’s mission.</p>
+                <div class="card-foot">Love / Compassion</div>
+              </div>
+            </article>
+
+            <article class="card tint-animal">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/monkey.svg')" role="img" aria-label="Primate"></span>
+                <span class="card-num">17</span>
+              </span>
+              <div class="card-body">
+                <h3>Primate</h3>
+                <p>Curiosity, alertness and social awareness. It reflects behavioural understanding and connection.</p>
+                <div class="card-foot">Active / Alert</div>
+              </div>
+            </article>
+
+            <article class="card tint-medical">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/bird4.svg')" role="img" aria-label="Humming bird"></span>
+                <span class="card-num">18</span>
+              </span>
+              <div class="card-body">
+                <h3>Humming bird</h3>
+                <p>Speed and efficiency. It stands for quick, focused work that gets more done with less effort.</p>
+                <div class="card-foot">Speed / Efficient</div>
+              </div>
+            </article>
+
+            <article class="card tint-mortality">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/snail.svg')" role="img" aria-label="Snail"></span>
+                <span class="card-num">19</span>
+              </span>
+              <div class="card-body">
+                <h3>Snail</h3>
+                <p>Slow and steady wisdom. It honours persistence and the long-term commitment behind good care.</p>
+                <div class="card-foot">Wisdom / Persistence</div>
+              </div>
+            </article>
+
+            <article class="card tint-operations">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/crocodile.svg')" role="img" aria-label="Crocodile"></span>
+                <span class="card-num">20</span>
+              </span>
+              <div class="card-body">
+                <h3>Crocodile</h3>
+                <p>Ancient guardians of the water’s edge. It represents protection, patience and the reptile and amphibian world.</p>
+                <div class="card-foot">Amphibian / Guardians</div>
+              </div>
+            </article>
+
+            <article class="card tint-records">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/network.svg')" role="img" aria-label="Research"></span>
+                <span class="card-num">21</span>
+              </span>
+              <div class="card-body">
+                <h3>Research</h3>
+                <p>Shared discovery. It shows connected institutions exchanging research, evidence and expertise.</p>
+                <div class="card-foot">Share / Connected</div>
+              </div>
+            </article>
+
+            <article class="card tint-animal">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/tick.svg')" role="img" aria-label="Tick"></span>
+                <span class="card-num">22</span>
+              </span>
+              <div class="card-body">
+                <h3>Tick</h3>
+                <p>Tasks done right. It represents checklists, daily routines and work that is tracked to completion.</p>
+                <div class="card-foot">Task / Checklist</div>
+              </div>
+            </article>
+
+            <article class="card tint-medical">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/iguana.svg')" role="img" aria-label="Iguana"></span>
+                <span class="card-num">23</span>
+              </span>
+              <div class="card-body">
+                <h3>Iguana</h3>
+                <p>The reptile world. It forms the curling base of the ‘a’ and gives cold-blooded species their place.</p>
+                <div class="card-foot">Reptile world</div>
+              </div>
+            </article>
+
+            <article class="card tint-mortality">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/speech_bubbles.svg')" role="img" aria-label="Speech bubble"></span>
+                <span class="card-num">24</span>
+              </span>
+              <div class="card-body">
+                <h3>Speech bubble</h3>
+                <p>Conversation and shared knowledge. It reflects teams talking, updating and learning from one another.</p>
+                <div class="card-foot">Communication / Share knowledge</div>
+              </div>
+            </article>
+
+            <article class="card tint-operations">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/flower.svg')" role="img" aria-label="Flower plant"></span>
+                <span class="card-num">25</span>
+              </span>
+              <div class="card-body">
+                <h3>Flower plant</h3>
+                <p>Horticulture and living landscapes. It adds the plants and gardens that shape every habitat.</p>
+                <div class="card-foot">Horticulture</div>
+              </div>
+            </article>
+
+            <article class="card tint-records">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/deer.svg')" role="img" aria-label="Deer"></span>
+                <span class="card-num">26</span>
+              </span>
+              <div class="card-body">
+                <h3>Deer</h3>
+                <p>Speed, spirit and renewal. It evokes balance with nature and a respectful relationship with wildlife.</p>
+                <div class="card-foot">Speed / Spiritual / Regenerative</div>
+              </div>
+            </article>
+
+            <article class="card tint-animal">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/fish_school.svg')" role="img" aria-label="School of fishes"></span>
+                <span class="card-num">27</span>
+              </span>
+              <div class="card-body">
+                <h3>School of fishes</h3>
+                <p>Moving as one. It stands for groups, harmony and teams working together towards a shared goal.</p>
+                <div class="card-foot">Groups / Harmony</div>
+              </div>
+            </article>
+
+            <article class="card tint-medical">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/turtle.svg')" role="img" aria-label="Turtle"></span>
+                <span class="card-num">28</span>
+              </span>
+              <div class="card-body">
+                <h3>Turtle</h3>
+                <p>Robust and enduring. It represents sea life, long-term stewardship and the safeguarding of vulnerable species.</p>
+                <div class="card-foot">Seaworld / Robust</div>
+              </div>
+            </article>
+
+            <article class="card tint-mortality">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/fish.svg')" role="img" aria-label="Fish / Whale"></span>
+                <span class="card-num">29</span>
+              </span>
+              <div class="card-body">
+                <h3>Fish / Whale</h3>
+                <p>Water and the life within it. It expands the system beyond land to the wider aquatic world.</p>
+                <div class="card-foot">Aquatic life</div>
+              </div>
+            </article>
+
+            <article class="card tint-operations">
+              <span class="card-thumb">
+                <span class="card-icon" style="--src: url('reference/icon_elements_svgs/bird5.svg')" role="img" aria-label="Flying bird"></span>
+                <span class="card-num">30</span>
+              </span>
+              <div class="card-body">
+                <h3>Flying bird</h3>
+                <p>Placed at the centre in perfect symmetry, it is also the eye of the elephant hidden within the ‘a’.</p>
+                <div class="card-foot">At the centre</div>
+              </div>
+            </article>
+          </div>
+          </div>
+        </section>
+
+        <section class="network-band" aria-labelledby="network-title">
+          <div class="network-band__inner">
+          <div class="network-head">
+            <div>
+              <span class="network-eyebrow">The bigger picture</span>
+              <h2 id="network-title">Global zoo network</h2>
+            </div>
+            <p>ANTZ is designed to express a connected international system of institutions, expertise and responsibility.</p>
+          </div>
+
+          <div class="network-wrap">
+            <div class="network-copy">
+              <h3>One ecosystem.<br />Many institutions.</h3>
+              <p class="lead">
+                The central idea behind the logo is not only the individual animals, but the relationship between them. Each symbol can be interpreted as a different institution, species focus, discipline or role within a wider conservation community.
+              </p>
+              <p>
+                One zoo may specialise in primates, another in marine life, another in bird welfare, another in habitat restoration, and another in research and public engagement. Yet all belong to a shared mission: to protect biodiversity, improve welfare standards, and build a more informed world.
+              </p>
+              <p>
+                In that sense, the ANTZ logo becomes a map of global cooperation. It represents a network of institutions learning from one another, supporting one another, and acting together for the benefit of wildlife and society.
+              </p>
+            </div>
+
+            <div class="network-visual" role="img" aria-label="The ANTZ mark at the centre, connected to eight institutions: primates, marine life, bird welfare, habitat, research, veterinary care, education and breeding">
+              <svg class="network-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                  <linearGradient id="spokeGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="100" y2="100">
+                    <stop offset="0" stop-color="#37BD69" />
+                    <stop offset="1" stop-color="#00D6C9" />
+                  </linearGradient>
+                </defs>
+                <circle class="orbit" cx="50" cy="50" r="38" />
+                <circle class="orbit orbit--inner" cx="50" cy="50" r="24" />
+                <line class="spoke" x1="50" y1="50" x2="50.0" y2="12.0" />
+                <line class="spoke" x1="50" y1="50" x2="76.87" y2="23.13" />
+                <line class="spoke" x1="50" y1="50" x2="88.0" y2="50.0" />
+                <line class="spoke" x1="50" y1="50" x2="76.87" y2="76.87" />
+                <line class="spoke" x1="50" y1="50" x2="50.0" y2="88.0" />
+                <line class="spoke" x1="50" y1="50" x2="23.13" y2="76.87" />
+                <line class="spoke" x1="50" y1="50" x2="12.0" y2="50.0" />
+                <line class="spoke" x1="50" y1="50" x2="23.13" y2="23.13" />
+                <line class="pulse" x1="50" y1="50" x2="50.0" y2="12.0" pathLength="100" style="animation-delay: -0.00s" />
+                <line class="pulse" x1="50" y1="50" x2="76.87" y2="23.13" pathLength="100" style="animation-delay: -0.45s" />
+                <line class="pulse" x1="50" y1="50" x2="88.0" y2="50.0" pathLength="100" style="animation-delay: -0.90s" />
+                <line class="pulse" x1="50" y1="50" x2="76.87" y2="76.87" pathLength="100" style="animation-delay: -1.35s" />
+                <line class="pulse" x1="50" y1="50" x2="50.0" y2="88.0" pathLength="100" style="animation-delay: -1.80s" />
+                <line class="pulse" x1="50" y1="50" x2="23.13" y2="76.87" pathLength="100" style="animation-delay: -2.25s" />
+                <line class="pulse" x1="50" y1="50" x2="12.0" y2="50.0" pathLength="100" style="animation-delay: -2.70s" />
+                <line class="pulse" x1="50" y1="50" x2="23.13" y2="23.13" pathLength="100" style="animation-delay: -3.15s" />
+              </svg>
+              <div class="network-core"><img src="reference/antz_logo14.svg" alt="" /></div>
+              <div class="network-node tint-records" style="--x: 50.0%; --y: 12.0%">
+                <span class="network-node__tile"><span style="--src: url('reference/icon_elements_svgs/monkey.svg')"></span></span>
+                <span class="network-node__label">Primates</span>
+              </div>
+              <div class="network-node tint-operations" style="--x: 76.87%; --y: 23.13%">
+                <span class="network-node__tile"><span style="--src: url('reference/icon_elements_svgs/fish.svg')"></span></span>
+                <span class="network-node__label">Marine life</span>
+              </div>
+              <div class="network-node tint-animal" style="--x: 88.0%; --y: 50.0%">
+                <span class="network-node__tile"><span style="--src: url('reference/icon_elements_svgs/bird5.svg')"></span></span>
+                <span class="network-node__label">Bird welfare</span>
+              </div>
+              <div class="network-node tint-medical" style="--x: 76.87%; --y: 76.87%">
+                <span class="network-node__tile"><span style="--src: url('reference/icon_elements_svgs/treee.svg')"></span></span>
+                <span class="network-node__label">Habitat</span>
+              </div>
+              <div class="network-node tint-records" style="--x: 50.0%; --y: 88.0%">
+                <span class="network-node__tile"><span style="--src: url('reference/icon_elements_svgs/network.svg')"></span></span>
+                <span class="network-node__label">Research</span>
+              </div>
+              <div class="network-node tint-mortality" style="--x: 23.13%; --y: 76.87%">
+                <span class="network-node__tile"><span style="--src: url('reference/icon_elements_svgs/plus.svg')"></span></span>
+                <span class="network-node__label">Veterinary care</span>
+              </div>
+              <div class="network-node tint-operations" style="--x: 12.0%; --y: 50.0%">
+                <span class="network-node__tile"><span style="--src: url('reference/icon_elements_svgs/speech_bubbles.svg')"></span></span>
+                <span class="network-node__label">Education</span>
+              </div>
+              <div class="network-node tint-animal" style="--x: 23.13%; --y: 23.13%">
+                <span class="network-node__tile"><span style="--src: url('reference/icon_elements_svgs/egg.svg')"></span></span>
+                <span class="network-node__label">Breeding</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pillars">
+            <div class="pillar tint-records">
+              <span class="pillar__num">01</span>
+              <strong>Connected</strong>
+              <span>Institutions collaborate across geography and expertise.</span>
+            </div>
+            <div class="pillar tint-animal">
+              <span class="pillar__num">02</span>
+              <strong>Shared</strong>
+              <span>Knowledge, care and standards travel across networks.</span>
+            </div>
+            <div class="pillar tint-operations">
+              <span class="pillar__num">03</span>
+              <strong>Evidence-led</strong>
+              <span>Scientific thinking guides each action and decision.</span>
+            </div>
+            <div class="pillar tint-mortality">
+              <span class="pillar__num">04</span>
+              <strong>Global</strong>
+              <span>Every habitat, species and institution sits within one larger system.</span>
+            </div>
+          </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const slides = [
+        {
+          title: 'LION',
+          body: 'Leadership, authority and guardianship. It signals strength, confidence and trust in institutional care.',
+          src: 'reference/icon_elements_svgs/lion.svg'
+        },
+        {
+          title: 'SWAN',
+          body: 'Elegance and grace. It brings refinement, calm stewardship and a high standard of care.',
+          src: 'reference/icon_elements_svgs/swan.svg'
+        },
+        {
+          title: 'FEATHER',
+          body: 'Communication, lightness and knowledge transfer. It reinforces learning, beauty and information flow.',
+          src: 'reference/icon_elements_svgs/feather.svg'
+        },
+        {
+          title: 'MONKEY',
+          body: 'Curiosity, intelligence and social awareness. It reflects behavioural understanding and connection.',
+          src: 'reference/icon_elements_svgs/monkey.svg'
+        },
+        {
+          title: 'GIRAFFE',
+          body: 'Perspective and plurality. It speaks to species diversity, habitat range and a broad ecological view.',
+          src: 'reference/icon_elements_svgs/giraffe.svg'
+        },
+        {
+          title: 'DEER',
+          body: 'Sensitivity and agility. It evokes balance with nature and a respectful relationship with wildlife.',
+          src: 'reference/icon_elements_svgs/deer.svg'
+        },
+        {
+          title: 'FISH',
+          body: 'Water, biodiversity and planetary responsibility. It expands the system beyond land to the wider living world.',
+          src: 'reference/icon_elements_svgs/fish.svg'
+        },
+        {
+          title: 'TURTLE',
+          body: 'Resilience and continuity. It represents long-term stewardship and the safeguarding of vulnerable species.',
+          src: 'reference/icon_elements_svgs/turtle.svg'
+        },
+        {
+          title: 'TREE',
+          body: 'Growth, habitat and ecological stability. It grounds the identity in nature and sustainability.',
+          src: 'reference/icon_elements_svgs/treee.svg'
+        },
+        {
+          title: 'FLOWER',
+          body: 'Renewal and nurturing life. It adds softness, care and the delicate balance of natural systems.',
+          src: 'reference/icon_elements_svgs/flower.svg'
+        },
+        {
+          title: 'HEART',
+          body: 'Compassion and ethical care. It brings human values to the centre of the institution’s mission.',
+          src: 'reference/icon_elements_svgs/heart.svg'
+        }
+      ];
+
+      const titleEl = document.getElementById('symbolTitle');
+      const bodyEl = document.getElementById('symbolBody');
+      const imageEl = document.getElementById('symbolImage');
+
+      let currentSlide = 0;
+
+      function renderSlide(index) {
+        const slide = slides[index];
+        titleEl.textContent = slide.title;
+        bodyEl.textContent = slide.body;
+        imageEl.src = slide.src;
+        imageEl.alt = slide.title + ' symbol';
+      }
+
+      setInterval(() => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        renderSlide(currentSlide);
+      }, 4500);
+
+      renderSlide(currentSlide);
+    </script>
+  </body>
+</html>
