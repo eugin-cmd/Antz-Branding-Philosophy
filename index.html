@@ -126,7 +126,7 @@
       /* Two glyph layers cross-dissolve: the old one softens away, the new one settles in */
       .hero-glyph {
         position: absolute;
-        inset: clamp(26px, 2.8vw, 42px);
+        inset: clamp(26px, 2.8vw, 42px) clamp(26px, 2.8vw, 42px) clamp(26px, 2.8vw, 42px) 0;
         opacity: 0;
         transform: scale(1.06);
         filter: blur(10px);
@@ -149,6 +149,12 @@
         filter: blur(8px);
         transition-duration: 0.9s;
         transition-delay: 0s;
+      }
+
+      /* Glyphs sit against the left edge of their square, in line with the title below */
+      .hero-glyph .hero-holo {
+        -webkit-mask-position: left center;
+        mask-position: left center;
       }
 
       .hero-glyph__art {
@@ -370,7 +376,10 @@
         width: 15.96px;
         height: 13.12px;
         fill: #fff;
-        animation: cueBounce 1.6s cubic-bezier(.45,0,.55,1) infinite;
+        /* On load it drops in from above, bounces and settles, then idles gently */
+        animation:
+          cueDrop 1.5s linear 0.5s both,
+          cueBounce 1.6s cubic-bezier(.45,0,.55,1) 2.4s infinite;
       }
 
       .hero-cue::before {
@@ -398,6 +407,18 @@
       .hero-cue:focus-visible {
         outline: 2px solid #fff;
         outline-offset: -4px;
+      }
+
+      @keyframes cueDrop {
+        0%   { transform: translateY(-140px); opacity: 0; animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+        12%  { opacity: 1; }
+        40%  { transform: translateY(0); animation-timing-function: cubic-bezier(0, .55, .45, 1); }
+        58%  { transform: translateY(-22px); animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+        74%  { transform: translateY(0); animation-timing-function: cubic-bezier(0, .55, .45, 1); }
+        84%  { transform: translateY(-7px); animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+        93%  { transform: translateY(0); animation-timing-function: cubic-bezier(0, .55, .45, 1); }
+        97%  { transform: translateY(-1.5px); animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+        100% { transform: translateY(0); opacity: 1; }
       }
 
       @keyframes cueBounce {
