@@ -1249,18 +1249,40 @@
         .network-head p { justify-self: start; }
         .network-wrap { gap: 56px; }
         .pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .elephant-band__inner { grid-template-columns: 1fr; gap: 48px; }
+        /* Stacked: title, then the mark close beneath it, then the answer under the mark.
+           The answer keeps its space while hidden, so nothing shifts when it fades in. */
+        .elephant-band__inner { grid-template-columns: 1fr; gap: 0; }
+        .elephant-copy { display: contents; }
+        .elephant-copy .network-eyebrow { justify-self: start; }
+        .elephant-copy h2 { margin-bottom: 24px; }
+        .elephant-mark { order: 1; }
+        .elephant-reveal { order: 2; margin-top: 24px; }
       }
 
       @media (max-width: 640px) {
         .hero-mark { display: none; }
-        .hero-brand { left: 20px; gap: 10px; }
-        .brand-logo { width: 104px; }
-        .brand-divider { height: 24px; }
-        .brand-label { font-size: 0.72rem; letter-spacing: 0.06em; }
-        .hero-symbol { left: 24px; width: min(320px, calc(100vw - 48px)); padding: 0; top: calc(50% - var(--arrow-h) / 2 - 100px); }
+        /* Phones: the logo sits alone at the top and "ANTZ Branding Philosophy"
+           becomes the banner's headline beneath it */
+        .hero-brand { left: 24px; top: 20px; display: block; }
+        .brand-logo { width: 96px; }
+        .brand-divider { display: none; }
+        .brand-label {
+          position: absolute;
+          top: 76px;
+          left: 0;
+          width: calc(100vw - 48px);
+          white-space: normal;
+          text-transform: none;
+          font-size: 2.1rem;
+          font-weight: 700;
+          line-height: 1.05;
+          letter-spacing: -0.035em;
+          color: #fff;
+          text-shadow: 0 2px 22px rgba(0, 0, 0, 0.5);
+        }
+        .hero-symbol { left: 24px; width: min(230px, calc(100vw - 48px)); padding: 0; top: 196px; transform: none; }
         .hero-glyph { inset: 0; }
-        .hero-symbol-copy { left: 24px; right: 24px; width: auto; top: calc(50% - var(--arrow-h) / 2 + 80px); }
+        .hero-symbol-copy { left: 24px; right: 24px; width: auto; top: 448px; }
         .page { padding-inline: 18px; }
         .elements-band__inner,
         .network-band__inner { padding-inline: 18px; }
