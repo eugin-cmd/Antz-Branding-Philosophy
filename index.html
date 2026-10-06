@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ANTZ Logo Elements</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
       :root {
         --bg: #f6f3ee;
@@ -109,24 +109,33 @@
         white-space: nowrap;
       }
 
-      .hero-symbol {
+      /* Glyph, title and description travel as one group, centred vertically
+         in the banner (above the arrow) whatever the title length */
+      .hero-left {
         position: absolute;
         left: 120px;
-        top: calc(50% - var(--arrow-h) / 2);
-        transform: translateY(-50%);
+        top: 0;
+        height: calc(100% - var(--arrow-h));
         z-index: 2;
-        width: min(360px, 30vw);
-        aspect-ratio: 1;
         display: flex;
-        align-items: center;
+        flex-direction: column;
         justify-content: center;
-        padding: clamp(26px, 2.8vw, 42px);
+        pointer-events: none;
+      }
+
+      .hero-left > * { pointer-events: auto; }
+
+      .hero-symbol {
+        position: relative;
+        flex: none;
+        width: min(290px, 24vw);
+        aspect-ratio: 1;
       }
 
       /* Two glyph layers cross-dissolve: the old one softens away, the new one settles in */
       .hero-glyph {
         position: absolute;
-        inset: clamp(26px, 2.8vw, 42px) clamp(26px, 2.8vw, 42px) clamp(26px, 2.8vw, 42px) 0;
+        inset: 0;
         opacity: 0;
         transform: scale(1.06);
         filter: blur(10px);
@@ -245,22 +254,21 @@
       .hero-mark .hero-holo::after { animation-delay: -2.5s; }
 
       .hero-symbol-copy {
-        position: absolute;
-        left: 120px;
-        top: calc(50% - var(--arrow-h) / 2 + 150px);
-        z-index: 2;
-        width: 290px;
+        position: relative;
+        margin-top: 28px;
+        width: 380px;
         color: #ffffff;
         text-shadow: 0 2px 22px rgba(0, 0, 0, 0.5);
       }
 
       .hero-symbol-copy h3 {
-        margin: 0 0 10px;
-        font-size: 2.1rem;
-        line-height: 1.1;
-        letter-spacing: 0.12em;
+        margin: 0 0 12px;
+        font-family: "Epilogue", "Inter", sans-serif;
+        font-size: 3.8rem;
+        line-height: 0.98;
+        letter-spacing: 0.03em;
         text-transform: uppercase;
-        font-weight: 700;
+        font-weight: 900;
       }
 
       .hero-symbol-copy p {
@@ -285,10 +293,32 @@
         background-size: 250% 100%, 300% 300%;
         -webkit-background-clip: text;
         background-clip: text;
+        -webkit-text-stroke: 0.035em transparent;
         -webkit-box-decoration-break: clone;
         box-decoration-break: clone;
         filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.45));
         animation: holoText 9s ease-in-out infinite alternate;
+      }
+
+      /* Watery ripple from the LSET Foundation banners: once the title has settled,
+         a gentle rise and fall runs along it, 24ms a letter. Letters move with top,
+         not transform, so they stay inside the clipped holographic sheen. */
+      .wave-word { display: inline-block; }
+      .wave-ch { position: relative; top: 0; }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .wave-ch { animation: textWave 820ms cubic-bezier(.37, 0, .63, 1) calc(var(--wave-delay, 700ms) + var(--i, 0) * 24ms) both; }
+      }
+
+      @keyframes textWave {
+        0%   { top: 0; }
+        50%  { top: -0.05em; }
+        100% { top: 0; }
+      }
+
+      /* Safari drops positioned letters out of the clipped sheen, so the ripple is skipped there */
+      @supports (-webkit-hyphens: none) {
+        .wave-ch { position: static; animation: none; }
       }
 
       @keyframes holoText {
@@ -1280,9 +1310,10 @@
           color: #fff;
           text-shadow: 0 2px 22px rgba(0, 0, 0, 0.5);
         }
-        .hero-symbol { left: 24px; width: min(230px, calc(100vw - 48px)); padding: 0; top: 196px; transform: none; }
-        .hero-glyph { inset: 0; }
-        .hero-symbol-copy { left: 24px; right: 24px; width: auto; top: 448px; }
+        .hero-left { left: 24px; right: 24px; top: 176px; height: calc(100% - var(--arrow-h) - 176px); }
+        .hero-symbol { width: min(230px, calc(100vw - 48px)); }
+        .hero-symbol-copy { width: auto; margin-top: 24px; }
+        .hero-symbol-copy h3 { font-size: 3.1rem; }
         .page { padding-inline: 18px; }
         .elements-band__inner,
         .network-band__inner { padding-inline: 18px; }
@@ -1315,14 +1346,16 @@
             <div class="brand-divider" aria-hidden="true"></div>
             <span class="brand-label">ANTZ Branding Philosophy</span>
           </div>
-          <div class="hero-symbol" aria-hidden="true">
-            <span class="hero-glyph is-active"><span class="hero-glyph__art"><span class="hero-holo" style="--src: url('reference/icon_elements_svgs/lion.svg')"></span></span></span>
-            <span class="hero-glyph"><span class="hero-glyph__art"><span class="hero-holo"></span></span></span>
-          </div>
-          <div class="hero-symbol-copy" aria-live="polite">
-            <h3><span class="holo-text" id="symbolTitle">LION</span></h3>
-            <p id="symbolBody">Leadership, authority and guardianship. It signals strength, confidence and trust in institutional care.</p>
-            <span class="hero-progress" aria-hidden="true"><span></span></span>
+          <div class="hero-left">
+            <div class="hero-symbol" aria-hidden="true">
+              <span class="hero-glyph is-active"><span class="hero-glyph__art"><span class="hero-holo" style="--src: url('reference/icon_elements_svgs/lion.svg')"></span></span></span>
+              <span class="hero-glyph"><span class="hero-glyph__art"><span class="hero-holo"></span></span></span>
+            </div>
+            <div class="hero-symbol-copy" aria-live="polite">
+              <h3><span class="holo-text" id="symbolTitle">LION</span></h3>
+              <p id="symbolBody">Leadership, authority and guardianship. It signals strength, confidence and trust in institutional care.</p>
+              <span class="hero-progress" aria-hidden="true"><span></span></span>
+            </div>
           </div>
           <div class="hero-mark" role="img" aria-label="ANTZ mark">
             <span class="hero-mark__art"><span class="hero-holo"></span></span>
@@ -1923,6 +1956,28 @@
         return img.decode().catch(() => {});
       }
 
+      // Split the title into letters for the ripple, keeping words unbroken
+      function setTitle(text, delay) {
+        titleEl.textContent = '';
+        titleEl.setAttribute('aria-label', text);
+        titleEl.style.setProperty('--wave-delay', delay + 'ms');
+        let i = 0;
+        text.split(' ').forEach((word, w) => {
+          if (w) titleEl.append(' ');
+          const wordEl = document.createElement('span');
+          wordEl.className = 'wave-word';
+          wordEl.setAttribute('aria-hidden', 'true');
+          for (const ch of word) {
+            const chEl = document.createElement('span');
+            chEl.className = 'wave-ch';
+            chEl.style.setProperty('--i', i++);
+            chEl.textContent = ch;
+            wordEl.append(chEl);
+          }
+          titleEl.append(wordEl);
+        });
+      }
+
       function restartProgress() {
         progressEl.classList.remove('is-running');
         void progressEl.offsetWidth;
@@ -1962,7 +2017,7 @@
 
         copyEl.classList.add('is-leaving');
         await wait(560);
-        titleEl.textContent = slide.title;
+        setTitle(slide.title, 650);
         bodyEl.textContent = slide.body;
         copyEl.classList.remove('is-leaving');
         copyEl.classList.add('is-entering');
@@ -1992,6 +2047,7 @@
         }
       });
 
+      setTitle(slides[0].title, 900);
       schedule();
       loadImage(slides[1].photo);
 
