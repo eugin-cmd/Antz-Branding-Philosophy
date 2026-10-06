@@ -160,10 +160,11 @@
         transition-delay: 0s;
       }
 
-      /* Glyphs sit against the left edge of their square, in line with the title below */
+      /* Glyphs sit in the bottom-left corner of their square: in line with the title,
+         and resting on it at a constant gap whatever their shape */
       .hero-glyph .hero-holo {
-        -webkit-mask-position: left center;
-        mask-position: left center;
+        -webkit-mask-position: left bottom;
+        mask-position: left bottom;
       }
 
       .hero-glyph__art {
