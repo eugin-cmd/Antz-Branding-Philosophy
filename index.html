@@ -76,7 +76,9 @@
         content: "";
         position: absolute;
         inset: 0;
+        /* Black halo: 74% at the edges, feathering out halfway to the centre */
         background:
+          radial-gradient(ellipse closest-side at 50% calc(50% - var(--arrow-h) / 2), rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.74) 100%),
           linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.34) 42%, rgba(0, 0, 0, 0.3) 62%, rgba(0, 0, 0, 0.46) 100%);
         z-index: 1;
       }
