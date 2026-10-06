@@ -76,7 +76,8 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, 0.4);
+        background:
+          linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.34) 42%, rgba(0, 0, 0, 0.3) 62%, rgba(0, 0, 0, 0.46) 100%);
         z-index: 1;
       }
 
@@ -120,13 +121,40 @@
         padding: clamp(26px, 2.8vw, 42px);
       }
 
-      .hero-symbol img {
+      /* Two glyph layers cross-dissolve: the old one softens away, the new one settles in */
+      .hero-glyph {
+        position: absolute;
+        inset: clamp(26px, 2.8vw, 42px);
+        opacity: 0;
+        transform: scale(1.06);
+        filter: blur(10px);
+        transition:
+          opacity 1.1s cubic-bezier(.4, 0, .2, 1),
+          transform 1.6s cubic-bezier(.22, .8, .24, 1),
+          filter 1.1s cubic-bezier(.4, 0, .2, 1);
+      }
+
+      .hero-glyph.is-active {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+        transition-delay: 0.45s;
+      }
+
+      .hero-glyph.is-leaving {
+        opacity: 0;
+        transform: scale(0.94);
+        filter: blur(8px);
+        transition-duration: 0.9s;
+        transition-delay: 0s;
+      }
+
+      .hero-glyph img {
         display: block;
         width: 100%;
         height: 100%;
         object-fit: contain;
         object-position: center;
-        opacity: 1;
         filter: brightness(0) invert(1) drop-shadow(0 2px 18px rgba(0, 0, 0, 0.28));
       }
 
@@ -151,12 +179,11 @@
       .hero-symbol-copy {
         position: absolute;
         left: 120px;
-        top: calc(50% - var(--arrow-h) / 2 + 210px);
-        transform: translateY(-50%);
+        top: calc(50% - var(--arrow-h) / 2 + 150px);
         z-index: 2;
-        max-width: 270px;
+        width: 290px;
         color: #ffffff;
-        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.3);
+        text-shadow: 0 2px 22px rgba(0, 0, 0, 0.5);
       }
 
       .hero-symbol-copy h3 {
@@ -176,13 +203,58 @@
         color: rgba(255, 255, 255, 0.9);
       }
 
-      .hero-symbol-copy::after {
-        content: "";
+      /* Copy leaves upwards and arrives from below, the body a beat behind the title */
+      .hero-symbol-copy h3,
+      .hero-symbol-copy p {
+        transition:
+          opacity 0.8s cubic-bezier(.4, 0, .2, 1),
+          transform 0.9s cubic-bezier(.22, .8, .24, 1),
+          filter 0.8s cubic-bezier(.4, 0, .2, 1);
+      }
+
+      .hero-symbol-copy p { transition-delay: 0.12s; }
+
+      .hero-symbol-copy.is-leaving h3,
+      .hero-symbol-copy.is-leaving p {
+        opacity: 0;
+        transform: translateY(-10px);
+        filter: blur(4px);
+        transition-duration: 0.5s;
+        transition-delay: 0s;
+      }
+
+      .hero-symbol-copy.is-entering h3,
+      .hero-symbol-copy.is-entering p {
+        opacity: 0;
+        transform: translateY(14px);
+        filter: blur(4px);
+        transition: none;
+      }
+
+      /* Progress line: fills across each slide's time on screen */
+      .hero-progress {
         display: block;
         width: 50%;
         height: 2px;
         margin-top: 14px;
-        background: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.22);
+        overflow: hidden;
+      }
+
+      .hero-progress span {
+        display: block;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.85);
+        transform: scaleX(0);
+        transform-origin: left;
+      }
+
+      .hero-progress.is-running span {
+        animation: heroProgress var(--slide-ms, 7000ms) linear forwards;
+      }
+
+      @keyframes heroProgress {
+        to { transform: scaleX(1); }
       }
 
       /* White cue inside the banner's arrow: links down to the cards.
@@ -297,14 +369,52 @@
         box-shadow: none;
       }
 
-      .hero-visual img {
+      /* Banner photos: two stacked layers that cross-fade, each easing in with a slow drift */
+      .hero-visual {
+        position: relative;
+        height: calc(700px + var(--arrow-h));
+        overflow: hidden;
+        background: #0d1311;
+      }
+
+      .hero-photo {
+        position: absolute;
+        inset: 0;
         display: block;
         width: 100%;
-        height: calc(700px + var(--arrow-h));
+        height: 100%;
         object-fit: cover;
         object-position: center;
-        border-radius: 0;
-        background: #efeae2;
+        opacity: 0;
+        transform: scale(1.1);
+        transition: opacity 2.2s cubic-bezier(.45, 0, .25, 1);
+        will-change: opacity, transform;
+      }
+
+      .hero-photo.is-active {
+        opacity: 1;
+        z-index: 1;
+        animation: heroDrift 11s cubic-bezier(.2, .6, .35, 1) forwards;
+      }
+
+      .hero-photo.is-leaving {
+        opacity: 0;
+        z-index: 0;
+        transform: scale(1);
+      }
+
+      @keyframes heroDrift {
+        from { transform: scale(1.1); }
+        to   { transform: scale(1); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hero-photo.is-active { animation: none; transform: none; }
+        .hero-photo { transform: none; }
+        .hero-glyph, .hero-glyph.is-active, .hero-glyph.is-leaving { transform: none; filter: none; }
+        .hero-symbol-copy h3, .hero-symbol-copy p,
+        .hero-symbol-copy.is-leaving h3, .hero-symbol-copy.is-leaving p,
+        .hero-symbol-copy.is-entering h3, .hero-symbol-copy.is-entering p { transform: none; filter: none; }
       }
 
       .stat-box {
@@ -914,12 +1024,14 @@
             <div class="brand-divider" aria-hidden="true"></div>
             <span class="brand-label">ANTZ Branding Philosophy</span>
           </div>
-          <div class="hero-symbol" aria-label="Brand symbol slide">
-            <img id="symbolImage" src="reference/icon_elements_svgs/lion.svg" alt="Lion emblem" />
+          <div class="hero-symbol" aria-hidden="true">
+            <span class="hero-glyph is-active"><img src="reference/icon_elements_svgs/lion.svg" alt="" /></span>
+            <span class="hero-glyph"><img alt="" /></span>
           </div>
-          <div class="hero-symbol-copy">
+          <div class="hero-symbol-copy" aria-live="polite">
             <h3 id="symbolTitle">LION</h3>
             <p id="symbolBody">Leadership, authority and guardianship. It signals strength, confidence and trust in institutional care.</p>
+            <span class="hero-progress" aria-hidden="true"><span></span></span>
           </div>
           <div class="hero-mark" aria-label="ANTZ mark">
             <img src="reference/antz_logo14.svg" alt="ANTZ mark" />
@@ -928,7 +1040,8 @@
           <div class="hero-inner">
             <div class="hero-grid">
               <div class="hero-visual">
-                <img src="reference/Banner%20Images/lioncloseup.jpg" alt="Lion banner" />
+                <img class="hero-photo is-active" src="reference/banner_web/lion.jpg" alt="" />
+                <img class="hero-photo" alt="" />
               </div>
             </div>
           </div>
@@ -1420,84 +1533,133 @@
     </div>
 
     <script>
+      // Banner slideshow: photo, glyph and copy for each logo element.
+      // Elements without a matching photo (Plus, Snail, Crocodile) are left out.
       const slides = [
-        {
-          title: 'LION',
-          body: 'Leadership, authority and guardianship. It signals strength, confidence and trust in institutional care.',
-          src: 'reference/icon_elements_svgs/lion.svg'
-        },
-        {
-          title: 'SWAN',
-          body: 'Elegance and grace. It brings refinement, calm stewardship and a high standard of care.',
-          src: 'reference/icon_elements_svgs/swan.svg'
-        },
-        {
-          title: 'FEATHER',
-          body: 'Communication, lightness and knowledge transfer. It reinforces learning, beauty and information flow.',
-          src: 'reference/icon_elements_svgs/feather.svg'
-        },
-        {
-          title: 'MONKEY',
-          body: 'Curiosity, intelligence and social awareness. It reflects behavioural understanding and connection.',
-          src: 'reference/icon_elements_svgs/monkey.svg'
-        },
-        {
-          title: 'GIRAFFE',
-          body: 'Perspective and plurality. It speaks to species diversity, habitat range and a broad ecological view.',
-          src: 'reference/icon_elements_svgs/giraffe.svg'
-        },
-        {
-          title: 'DEER',
-          body: 'Sensitivity and agility. It evokes balance with nature and a respectful relationship with wildlife.',
-          src: 'reference/icon_elements_svgs/deer.svg'
-        },
-        {
-          title: 'FISH',
-          body: 'Water, biodiversity and planetary responsibility. It expands the system beyond land to the wider living world.',
-          src: 'reference/icon_elements_svgs/fish.svg'
-        },
-        {
-          title: 'TURTLE',
-          body: 'Resilience and continuity. It represents long-term stewardship and the safeguarding of vulnerable species.',
-          src: 'reference/icon_elements_svgs/turtle.svg'
-        },
-        {
-          title: 'TREE',
-          body: 'Growth, habitat and ecological stability. It grounds the identity in nature and sustainability.',
-          src: 'reference/icon_elements_svgs/treee.svg'
-        },
-        {
-          title: 'FLOWER',
-          body: 'Renewal and nurturing life. It adds softness, care and the delicate balance of natural systems.',
-          src: 'reference/icon_elements_svgs/flower.svg'
-        },
-        {
-          title: 'HEART',
-          body: 'Compassion and ethical care. It brings human values to the centre of the institution’s mission.',
-          src: 'reference/icon_elements_svgs/heart.svg'
-        }
+        {"title": "Lion", "icon": "reference/icon_elements_svgs/lion.svg", "photo": "reference/banner_web/lion.jpg", "body": "Leadership, authority and guardianship. It signals strength, confidence and trust in institutional care."},
+        {"title": "Swan", "icon": "reference/icon_elements_svgs/swan.svg", "photo": "reference/banner_web/swan.jpg", "body": "Elegance and grace. It brings refinement, calm stewardship and a high standard of care."},
+        {"title": "Apple", "icon": "reference/icon_elements_svgs/apple.svg", "photo": "reference/banner_web/apple.jpg", "body": "Part of the fruits cluster. It stands for balanced diets and the daily nutrition planned for every animal."},
+        {"title": "Banana", "icon": "reference/icon_elements_svgs/fruit.svg", "photo": "reference/banner_web/banana.jpg", "body": "Part of the fruits cluster. It reflects feeding schedules, food preparation and keepers’ care in the kitchen."},
+        {"title": "Fruit", "icon": "reference/icon_elements_svgs/fruits2.svg", "photo": "reference/banner_web/fruit.jpg", "body": "Part of the fruits cluster. It completes the story of variety, enrichment and well-managed nutrition."},
+        {"title": "Squirrel", "icon": "reference/icon_elements_svgs/squirrel.svg", "photo": "reference/banner_web/squirrel.jpg", "body": "Energy and quick movement. It gives a place to the small animals that are just as important as the large ones."},
+        {"title": "Flying on top", "icon": "reference/icon_elements_svgs/bird.svg", "photo": "reference/banner_web/flying-on-top.jpg", "body": "Ambition and open skies. Sitting at the top of the ‘a’, it reminds us to aim high and protect freedom."},
+        {"title": "Tree", "icon": "reference/icon_elements_svgs/treee.svg", "photo": "reference/banner_web/tree.jpg", "body": "Growth, habitat and ecological stability. It grounds the identity in nature, forests and sustainability."},
+        {"title": "Tiger / Panther", "icon": "reference/icon_elements_svgs/tiger.svg", "photo": "reference/banner_web/tiger.jpg", "body": "Power with precision. It speaks to agility, strength and the big cats in our care."},
+        {"title": "Feather", "icon": "reference/icon_elements_svgs/feather.svg", "photo": "reference/banner_web/feather.jpg", "body": "Lightness and the written record. It reinforces learning, note-taking and knowledge that is easy to capture."},
+        {"title": "Giraffe", "icon": "reference/icon_elements_svgs/giraffe.svg", "photo": "reference/banner_web/giraffe.jpg", "body": "Wild and one of a kind. It speaks to species diversity, habitat range and a broad ecological view.", "position": "50% 30%"},
+        {"title": "Magnifier", "icon": "reference/icon_elements_svgs/magnifieer.svg", "photo": "reference/banner_web/magnifier.jpg", "body": "Finding what matters. It stands for searchable records and data that is always within reach."},
+        {"title": "Feeder", "icon": "reference/icon_elements_svgs/feeder.svg", "photo": "reference/banner_web/feeder.jpg", "body": "Medicine and hands-on care. It reflects dosing, treatment plans and the attention behind every recovery."},
+        {"title": "Egg", "icon": "reference/icon_elements_svgs/egg.svg", "photo": "reference/banner_web/egg.jpg", "body": "New life and breeding. It represents egg tracking, incubation and the next generation of each species."},
+        {"title": "Heart", "icon": "reference/icon_elements_svgs/heart.svg", "photo": "reference/banner_web/heart.jpg", "body": "Compassion and ethical care. It brings human values to the centre of the institution’s mission."},
+        {"title": "Primate", "icon": "reference/icon_elements_svgs/monkey.svg", "photo": "reference/banner_web/primate.jpg", "body": "Curiosity, alertness and social awareness. It reflects behavioural understanding and connection.", "position": "50% 35%"},
+        {"title": "Humming bird", "icon": "reference/icon_elements_svgs/bird4.svg", "photo": "reference/banner_web/humming-bird.jpg", "body": "Speed and efficiency. It stands for quick, focused work that gets more done with less effort."},
+        {"title": "Research", "icon": "reference/icon_elements_svgs/network.svg", "photo": "reference/banner_web/research.jpg", "body": "Shared discovery. It shows connected institutions exchanging research, evidence and expertise."},
+        {"title": "Tick", "icon": "reference/icon_elements_svgs/tick.svg", "photo": "reference/banner_web/tick.jpg", "body": "Tasks done right. It represents checklists, daily routines and work that is tracked to completion."},
+        {"title": "Iguana", "icon": "reference/icon_elements_svgs/iguana.svg", "photo": "reference/banner_web/iguana.jpg", "body": "The reptile world. It forms the curling base of the ‘a’ and gives cold-blooded species their place."},
+        {"title": "Speech bubble", "icon": "reference/icon_elements_svgs/speech_bubbles.svg", "photo": "reference/banner_web/speech-bubble.jpg", "body": "Conversation and shared knowledge. It reflects teams talking, updating and learning from one another."},
+        {"title": "Flower plant", "icon": "reference/icon_elements_svgs/flower.svg", "photo": "reference/banner_web/flower.jpg", "body": "Horticulture and living landscapes. It adds the plants and gardens that shape every habitat."},
+        {"title": "Deer", "icon": "reference/icon_elements_svgs/deer.svg", "photo": "reference/banner_web/deer.jpg", "body": "Speed, spirit and renewal. It evokes balance with nature and a respectful relationship with wildlife.", "position": "50% 25%"},
+        {"title": "School of fishes", "icon": "reference/icon_elements_svgs/fish_school.svg", "photo": "reference/banner_web/school-of-fishes.jpg", "body": "Moving as one. It stands for groups, harmony and teams working together towards a shared goal."},
+        {"title": "Turtle", "icon": "reference/icon_elements_svgs/turtle.svg", "photo": "reference/banner_web/turtle.jpg", "body": "Robust and enduring. It represents sea life, long-term stewardship and the safeguarding of vulnerable species."},
+        {"title": "Fish / Whale", "icon": "reference/icon_elements_svgs/fish.svg", "photo": "reference/banner_web/fish-whale.jpg", "body": "Water and the life within it. It expands the system beyond land to the wider aquatic world."},
+        {"title": "Flying bird", "icon": "reference/icon_elements_svgs/bird5.svg", "photo": "reference/banner_web/flying-bird.jpg", "body": "Placed at the centre in perfect symmetry, it is also the eye of the elephant hidden within the ‘a’."}
       ];
 
+      const SLIDE_MS = 7000;
+      const heroEl = document.querySelector('.hero');
+      const photos = [...document.querySelectorAll('.hero-photo')];
+      const glyphs = [...document.querySelectorAll('.hero-glyph')];
+      const copyEl = document.querySelector('.hero-symbol-copy');
       const titleEl = document.getElementById('symbolTitle');
       const bodyEl = document.getElementById('symbolBody');
-      const imageEl = document.getElementById('symbolImage');
+      const progressEl = document.querySelector('.hero-progress');
 
-      let currentSlide = 0;
+      heroEl.style.setProperty('--slide-ms', SLIDE_MS + 'ms');
 
-      function renderSlide(index) {
-        const slide = slides[index];
-        titleEl.textContent = slide.title;
-        bodyEl.textContent = slide.body;
-        imageEl.src = slide.src;
-        imageEl.alt = slide.title + ' symbol';
+      let current = 0;
+      let layer = 0;
+      let timer = null;
+      let busy = false;
+
+      const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      function loadImage(src) {
+        const img = new Image();
+        img.src = src;
+        return img.decode().catch(() => {});
       }
 
-      setInterval(() => {
-        currentSlide = (currentSlide + 1) % slides.length;
-        renderSlide(currentSlide);
-      }, 4500);
+      function restartProgress() {
+        progressEl.classList.remove('is-running');
+        void progressEl.offsetWidth;
+        progressEl.classList.add('is-running');
+      }
 
-      renderSlide(currentSlide);
+      function schedule() {
+        clearTimeout(timer);
+        timer = setTimeout(next, SLIDE_MS);
+        restartProgress();
+      }
+
+      async function goTo(index) {
+        if (busy) return;
+        busy = true;
+        const slide = slides[index];
+        const nextLayer = 1 - layer;
+
+        // Make sure the photo and glyph are decoded first, so the fade never stutters
+        await Promise.all([loadImage(slide.photo), loadImage(slide.icon)]);
+
+        const inPhoto = photos[nextLayer], outPhoto = photos[layer];
+        inPhoto.src = slide.photo;
+        inPhoto.style.objectPosition = slide.position || 'center';
+        inPhoto.classList.remove('is-leaving');
+        void inPhoto.offsetWidth;
+        outPhoto.classList.remove('is-active');
+        outPhoto.classList.add('is-leaving');
+        inPhoto.classList.add('is-active');
+
+        const inGlyph = glyphs[nextLayer], outGlyph = glyphs[layer];
+        inGlyph.querySelector('img').src = slide.icon;
+        outGlyph.classList.remove('is-active');
+        outGlyph.classList.add('is-leaving');
+        inGlyph.classList.remove('is-leaving');
+        inGlyph.classList.add('is-active');
+
+        copyEl.classList.add('is-leaving');
+        await wait(560);
+        titleEl.textContent = slide.title;
+        bodyEl.textContent = slide.body;
+        copyEl.classList.remove('is-leaving');
+        copyEl.classList.add('is-entering');
+        void copyEl.offsetWidth;
+        copyEl.classList.remove('is-entering');
+
+        layer = nextLayer;
+        current = index;
+        busy = false;
+        schedule();
+
+        // Warm the following photo in the background
+        loadImage(slides[(index + 1) % slides.length].photo);
+      }
+
+      function next() {
+        goTo((current + 1) % slides.length);
+      }
+
+      // Pause while the tab is hidden, so slides don't pile up
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          clearTimeout(timer);
+          progressEl.classList.remove('is-running');
+        } else {
+          schedule();
+        }
+      });
+
+      schedule();
+      loadImage(slides[1].photo);
 
       // Banner outline: a rectangle whose bottom edge runs into a centred arrow.
       // Arrow joints are rounded at 40px, the tip at 12px.
