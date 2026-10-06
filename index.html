@@ -151,13 +151,63 @@
         transition-delay: 0s;
       }
 
-      .hero-glyph img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: center;
-        filter: brightness(0) invert(1) drop-shadow(0 2px 18px rgba(0, 0, 0, 0.28));
+      .hero-glyph__art {
+        position: absolute;
+        inset: 0;
+        filter: drop-shadow(0 2px 18px rgba(0, 0, 0, 0.28));
+      }
+
+      /* Holographic iridescence: the icon shape masks a drifting pastel spectrum,
+         with a soft sheen of light sweeping across it */
+      .hero-holo {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        -webkit-mask: var(--src) center / contain no-repeat;
+        mask: var(--src) center / contain no-repeat;
+        background:
+          linear-gradient(125deg,
+            #fbe4ff 0%, #c9f1ff 14%, #e1d4ff 28%, #c8ffe9 42%,
+            #fff4cc 56%, #ffd3ec 70%, #cfe9ff 84%, #fbe4ff 100%);
+        background-size: 300% 300%;
+        animation: holoDrift 9s ease-in-out infinite alternate;
+      }
+
+      .hero-holo::before {
+        content: "";
+        position: absolute;
+        inset: -50%;
+        background: conic-gradient(from 0deg,
+          rgba(255, 170, 230, 0.55), rgba(140, 220, 255, 0.55), rgba(190, 160, 255, 0.55),
+          rgba(150, 255, 210, 0.55), rgba(255, 235, 150, 0.55), rgba(255, 170, 230, 0.55));
+        mix-blend-mode: soft-light;
+        animation: holoSpin 14s linear infinite;
+      }
+
+      .hero-holo::after {
+        content: "";
+        position: absolute;
+        top: -20%;
+        bottom: -20%;
+        left: 0;
+        width: 45%;
+        background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0) 100%);
+        transform: translateX(-160%) skewX(-12deg);
+        animation: holoSheen 5.5s cubic-bezier(.45, 0, .25, 1) infinite;
+      }
+
+      @keyframes holoDrift {
+        0%   { background-position: 0% 30%; }
+        100% { background-position: 100% 70%; }
+      }
+
+      @keyframes holoSpin {
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes holoSheen {
+        0%, 35% { transform: translateX(-160%) skewX(-12deg); }
+        75%, 100% { transform: translateX(330%) skewX(-12deg); }
       }
 
       .hero-mark {
@@ -171,12 +221,22 @@
         justify-content: center;
       }
 
-      .hero-mark img {
+      /* The ANTZ mark shares the glyph's holographic finish */
+      .hero-mark__art {
+        position: relative;
         display: block;
-        width: auto;
         height: 537.109375px;
+        aspect-ratio: 1191 / 1293;
         filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.12));
       }
+
+      .hero-mark .hero-holo {
+        --src: url("reference/antz_logo14.svg");
+        animation-delay: -4s;
+      }
+
+      .hero-mark .hero-holo::before { animation-delay: -7s; }
+      .hero-mark .hero-holo::after { animation-delay: -2.5s; }
 
       .hero-symbol-copy {
         position: absolute;
@@ -189,8 +249,8 @@
       }
 
       .hero-symbol-copy h3 {
-        margin: 0 0 8px;
-        font-size: 1.6rem;
+        margin: 0 0 10px;
+        font-size: 2.1rem;
         line-height: 1.1;
         letter-spacing: 0.12em;
         text-transform: uppercase;
@@ -203,6 +263,35 @@
         line-height: 1.5;
         font-weight: 400;
         color: rgba(255, 255, 255, 0.9);
+      }
+
+      /* Title in the same holographic finish as the glyph: the spectrum and a
+         sheen of light are clipped to the letters */
+      .holo-text {
+        display: inline;
+        color: transparent;
+        text-shadow: none;
+        background:
+          linear-gradient(100deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0) 60%),
+          linear-gradient(125deg,
+            #fbe4ff 0%, #c9f1ff 14%, #e1d4ff 28%, #c8ffe9 42%,
+            #fff4cc 56%, #ffd3ec 70%, #cfe9ff 84%, #fbe4ff 100%);
+        background-size: 250% 100%, 300% 300%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+        filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.45));
+        animation: holoText 9s ease-in-out infinite alternate;
+      }
+
+      @keyframes holoText {
+        0%   { background-position: 170% 0, 0% 30%; }
+        100% { background-position: -70% 0, 100% 70%; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .holo-text { animation: none; background-position: -70% 0, 50% 50%; }
       }
 
       /* Copy leaves upwards and arrives from below, the body a beat behind the title */
@@ -414,6 +503,8 @@
         .hero-photo.is-active { animation: none; transform: none; }
         .hero-photo { transform: none; }
         .hero-glyph, .hero-glyph.is-active, .hero-glyph.is-leaving { transform: none; filter: none; }
+        .hero-holo, .hero-holo::before, .hero-holo::after { animation: none; }
+        .hero-holo::after { display: none; }
         .hero-symbol-copy h3, .hero-symbol-copy p,
         .hero-symbol-copy.is-leaving h3, .hero-symbol-copy.is-leaving p,
         .hero-symbol-copy.is-entering h3, .hero-symbol-copy.is-entering p { transform: none; filter: none; }
@@ -628,8 +719,15 @@
         margin: 15px 15px 0;
         border-radius: 11px;
         overflow: hidden;
-        background: linear-gradient(135deg, var(--tint) 0%, var(--tint-comp) 100%);
         isolation: isolate;
+        /* Holographic tile: a soft, slowly drifting version of the banner's iridescence */
+        background:
+          linear-gradient(125deg,
+            #ffe8f7 0%, #e1f6ff 14%, #f0ebff 28%, #dffdf3 42%,
+            #fff9e4 56%, #ffebf2 70%, #e5f1ff 84%, #ffe8f7 100%);
+        background-size: 300% 300%;
+        animation: holoDrift 9s ease-in-out infinite alternate;
+        animation-delay: var(--holo-delay, 0s);
       }
 
       .card-thumb::before {
@@ -637,20 +735,27 @@
         position: absolute;
         inset: 0;
         background:
-          radial-gradient(ellipse 60% 70% at 85% 10%, rgba(255, 255, 255, 0.55), transparent 70%),
-          radial-gradient(ellipse 50% 60% at 10% 100%, rgba(255, 255, 255, 0.35), transparent 70%);
-        transition: opacity 0.6s ease;
+          radial-gradient(ellipse 60% 70% at 85% 10%, rgba(255, 255, 255, 0.4), transparent 70%),
+          radial-gradient(ellipse 50% 60% at 10% 100%, rgba(255, 255, 255, 0.25), transparent 70%);
       }
 
-      .card:hover .card-thumb::before { opacity: 0.4; }
+      /* Neighbouring tiles start at different points so the grid shimmers, not pulses */
+      .card:nth-child(5n+2) { --holo-delay: -1.8s; }
+      .card:nth-child(5n+3) { --holo-delay: -3.6s; }
+      .card:nth-child(5n+4) { --holo-delay: -5.4s; }
+      .card:nth-child(5n+5) { --holo-delay: -7.2s; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .card-thumb { animation: none; }
+      }
 
       /* The SVG is used as a mask: its shape is kept at its own aspect ratio and
-         contained within the centred box, then filled with the card's ink colour */
+         contained within the centred box, then filled with the darkest grey */
       .card-icon {
         position: absolute;
         inset: 44px 34px 16px;
         z-index: 1;
-        background: var(--tint-ink);
+        background: #1c1c1c;
         -webkit-mask: var(--src) center / contain no-repeat;
         mask: var(--src) center / contain no-repeat;
       }
@@ -664,8 +769,8 @@
         font-weight: 700;
         letter-spacing: 0.02em;
         line-height: 1;
-        color: var(--tint-ink);
-        opacity: 0.85;
+        color: #1c1c1c;
+        opacity: 0.75;
         font-variant-numeric: tabular-nums;
       }
 
@@ -943,15 +1048,21 @@
         transition: transform 0.5s cubic-bezier(.22,.8,.24,1), border-color 0.5s ease;
       }
 
-      .pillar::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        height: 2px;
-        background: linear-gradient(90deg, var(--tint), var(--tint-comp));
-        opacity: 0.85;
+      .pillar__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      /* Each pillar's logo element, in the banner's holographic finish */
+      .pillar__icon {
+        position: relative;
+        flex: none;
+        width: 44px;
+        height: 44px;
+        filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.3));
       }
 
       .pillar:hover {
@@ -961,7 +1072,6 @@
 
       .pillar__num {
         display: block;
-        margin-bottom: 22px;
         font-size: 2.1rem;
         font-weight: 700;
         line-height: 1;
@@ -996,6 +1106,14 @@
       }
 
       @media (max-width: 640px) {
+        .hero-mark { display: none; }
+        .hero-brand { left: 20px; gap: 10px; }
+        .brand-logo { width: 104px; }
+        .brand-divider { height: 24px; }
+        .brand-label { font-size: 0.72rem; letter-spacing: 0.06em; }
+        .hero-symbol { left: 24px; width: min(320px, calc(100vw - 48px)); padding: 0; top: calc(50% - var(--arrow-h) / 2 - 100px); }
+        .hero-glyph { inset: 0; }
+        .hero-symbol-copy { left: 24px; right: 24px; width: auto; top: calc(50% - var(--arrow-h) / 2 + 80px); }
         .page { padding-inline: 18px; }
         .elements-band__inner,
         .network-band__inner { padding-inline: 18px; }
@@ -1027,16 +1145,16 @@
             <span class="brand-label">ANTZ Branding Philosophy</span>
           </div>
           <div class="hero-symbol" aria-hidden="true">
-            <span class="hero-glyph is-active"><img src="reference/icon_elements_svgs/lion.svg" alt="" /></span>
-            <span class="hero-glyph"><img alt="" /></span>
+            <span class="hero-glyph is-active"><span class="hero-glyph__art"><span class="hero-holo" style="--src: url('reference/icon_elements_svgs/lion.svg')"></span></span></span>
+            <span class="hero-glyph"><span class="hero-glyph__art"><span class="hero-holo"></span></span></span>
           </div>
           <div class="hero-symbol-copy" aria-live="polite">
-            <h3 id="symbolTitle">LION</h3>
+            <h3><span class="holo-text" id="symbolTitle">LION</span></h3>
             <p id="symbolBody">Leadership, authority and guardianship. It signals strength, confidence and trust in institutional care.</p>
             <span class="hero-progress" aria-hidden="true"><span></span></span>
           </div>
-          <div class="hero-mark" aria-label="ANTZ mark">
-            <img src="reference/antz_logo14.svg" alt="ANTZ mark" />
+          <div class="hero-mark" role="img" aria-label="ANTZ mark">
+            <span class="hero-mark__art"><span class="hero-holo"></span></span>
           </div>
           <a class="hero-cue" href="#core-elements" aria-label="Scroll to the core elements"><svg viewBox="4.179 0 15.960 13.117" aria-hidden="true"><path d="M5.021 6.456 A4 4 0 0 1 8.179 0.000 L16.139 0.000 A4 4 0 0 1 19.296 6.456 L15.316 11.573 A4 4 0 0 1 9.001 11.573 Z" /></svg></a>
           <div class="hero-inner">
@@ -1509,22 +1627,34 @@
 
           <div class="pillars">
             <div class="pillar tint-records">
-              <span class="pillar__num">01</span>
+              <div class="pillar__top">
+                <span class="pillar__num">01</span>
+                <span class="pillar__icon" aria-hidden="true"><span class="hero-holo" style="--src: url('reference/icon_elements_svgs/network.svg'); animation-delay: 0s"></span></span>
+              </div>
               <strong>Connected</strong>
               <span>Institutions collaborate across geography and expertise.</span>
             </div>
             <div class="pillar tint-animal">
-              <span class="pillar__num">02</span>
+              <div class="pillar__top">
+                <span class="pillar__num">02</span>
+                <span class="pillar__icon" aria-hidden="true"><span class="hero-holo" style="--src: url('reference/icon_elements_svgs/speech_bubbles.svg'); animation-delay: -2.2s"></span></span>
+              </div>
               <strong>Shared</strong>
               <span>Knowledge, care and standards travel across networks.</span>
             </div>
             <div class="pillar tint-operations">
-              <span class="pillar__num">03</span>
+              <div class="pillar__top">
+                <span class="pillar__num">03</span>
+                <span class="pillar__icon" aria-hidden="true"><span class="hero-holo" style="--src: url('reference/icon_elements_svgs/magnifieer.svg'); animation-delay: -4.4s"></span></span>
+              </div>
               <strong>Evidence-led</strong>
               <span>Scientific thinking guides each action and decision.</span>
             </div>
             <div class="pillar tint-mortality">
-              <span class="pillar__num">04</span>
+              <div class="pillar__top">
+                <span class="pillar__num">04</span>
+                <span class="pillar__icon" aria-hidden="true"><span class="hero-holo" style="--src: url('reference/icon_elements_svgs/bird5.svg'); animation-delay: -6.6s"></span></span>
+              </div>
               <strong>Global</strong>
               <span>Every habitat, species and institution sits within one larger system.</span>
             </div>
@@ -1622,7 +1752,7 @@
         inPhoto.classList.add('is-active');
 
         const inGlyph = glyphs[nextLayer], outGlyph = glyphs[layer];
-        inGlyph.querySelector('img').src = slide.icon;
+        inGlyph.querySelector('.hero-holo').style.setProperty('--src', "url('" + slide.icon + "')");
         outGlyph.classList.remove('is-active');
         outGlyph.classList.add('is-leaving');
         inGlyph.classList.remove('is-leaving');
