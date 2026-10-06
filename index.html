@@ -1097,12 +1097,138 @@
         color: rgba(255, 255, 255, 0.66);
       }
 
+      /* ---------- Hidden elephant ---------- */
+      .elephant-band {
+        position: relative;
+        width: 100vw;
+        margin: 0 0 0 calc(50% - 50vw);
+        padding: 112px 0;
+        color: #fff;
+        background:
+          radial-gradient(ellipse 45% 60% at 72% 50%, rgba(255, 255, 255, 0.06), transparent 70%),
+          #050606;
+        overflow: hidden;
+      }
+
+      .elephant-band__inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 28px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        align-items: center;
+      }
+
+      .elephant-copy .network-eyebrow { margin-bottom: 18px; }
+
+      .elephant-copy h2 {
+        margin: 0;
+        max-width: 560px;
+        font-size: clamp(2.4rem, 4.8vw, 4.2rem);
+        line-height: 1.02;
+        letter-spacing: -0.045em;
+        font-weight: 700;
+      }
+
+      .elephant-reveal {
+        max-width: 480px;
+        margin-top: 28px;
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.9s cubic-bezier(.4, 0, .2, 1), transform 1s cubic-bezier(.22, .8, .24, 1);
+      }
+
+      .elephant-band.is-revealed .elephant-reveal {
+        opacity: 1;
+        transform: none;
+      }
+
+      .elephant-reveal p {
+        margin: 0 0 22px;
+        font-size: 1.05rem;
+        line-height: 1.65;
+        color: rgba(255, 255, 255, 0.74);
+      }
+
+      .elephant-replay {
+        appearance: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 999px;
+        background: transparent;
+        color: #fff;
+        font: inherit;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s ease, border-color 0.3s ease;
+      }
+
+      .elephant-replay:hover,
+      .elephant-replay:focus-visible {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.5);
+        outline: none;
+      }
+
+      .elephant-mark {
+        position: relative;
+        justify-self: center;
+        height: min(560px, 80vw);
+        aspect-ratio: 1191 / 1293;
+      }
+
+      .elephant-mark .hero-holo {
+        --src: url("reference/antz_logo14.svg");
+        animation-delay: -6s;
+      }
+
+      /* The trace sits in the logo's own coordinate space, over the mark */
+      .elephant-trace {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        pointer-events: none;
+      }
+
+      .elephant-trace path {
+        fill: none;
+        stroke: url(#traceGrad);
+        stroke-width: 7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        filter: drop-shadow(0 0 10px rgba(55, 189, 105, 0.65));
+      }
+
+      .elephant-band.is-tracing .trace-head  { animation: traceDraw 4.6s cubic-bezier(.45, 0, .25, 1) forwards; }
+      .elephant-band.is-tracing .trace-jaw   { animation: traceDraw 3.2s cubic-bezier(.45, 0, .25, 1) 4.4s forwards; }
+      .elephant-band.is-tracing .trace-ear   { animation: traceDraw 1.4s cubic-bezier(.45, 0, .25, 1) 7.5s forwards; }
+      .elephant-band.is-tracing .trace-eye   { animation: traceDraw 1.1s cubic-bezier(.45, 0, .25, 1) 8.7s forwards; }
+
+      @keyframes traceDraw {
+        to { stroke-dashoffset: 0; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .elephant-band.is-tracing .elephant-trace path { animation: none; stroke-dashoffset: 0; }
+        .elephant-reveal { transition: none; transform: none; }
+      }
+
       @media (max-width: 1000px) {
         .network-head,
         .network-wrap { grid-template-columns: 1fr; }
         .network-head p { justify-self: start; }
         .network-wrap { gap: 56px; }
         .pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .elephant-band__inner { grid-template-columns: 1fr; gap: 48px; }
       }
 
       @media (max-width: 640px) {
@@ -1125,6 +1251,8 @@
         .network-node__tile span { inset: 10px; }
         .network-node__label { font-size: 0.58rem; letter-spacing: 0.1em; }
         .pillars { grid-template-columns: 1fr; }
+        .elephant-band { padding: 72px 0; }
+        .elephant-band__inner { padding-inline: 24px; }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -1661,6 +1789,37 @@
           </div>
           </div>
         </section>
+        <section class="elephant-band" aria-labelledby="elephant-title">
+          <div class="elephant-band__inner">
+            <div class="elephant-copy">
+              <span class="network-eyebrow">A closer look</span>
+              <h2 id="elephant-title">Can you spot the elephant in the logo mark?</h2>
+              <div class="elephant-reveal" aria-live="polite">
+                <p>It lives in the space inside the ‘a’. The flying bird at the centre is its eye, the ear sweeps out to the left, and the trunk falls along the right, sweeps round above the crocodile and curls up at the tip.</p>
+                <button class="elephant-replay" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7" /><path d="M3 4v5h5" /></svg>
+                  Trace again
+                </button>
+              </div>
+            </div>
+
+            <div class="elephant-mark" role="img" aria-label="The ANTZ logo mark, with the outline of an elephant head traced in the space inside the letter a">
+              <span class="hero-mark__art" style="height: 100%"><span class="hero-holo"></span></span>
+              <svg class="elephant-trace" viewBox="0 0 1191 1293" aria-hidden="true">
+                <defs>
+                  <linearGradient id="traceGrad" gradientUnits="userSpaceOnUse" x1="250" y1="120" x2="880" y2="900">
+                    <stop offset="0" stop-color="#37BD69" />
+                    <stop offset="1" stop-color="#00D6C9" />
+                  </linearGradient>
+                </defs>
+                <path class="trace-head" pathLength="1" d="M287 244 C330 190 380 160 431 144 C520 118 600 112 647 122 C720 130 775 140 805 158 C840 180 858 210 862 244 C868 300 870 370 872 431 C875 520 877 590 876 647 C875 720 873 790 868 850 C864 900 858 950 852 980 C846 1002 820 1010 795 1005 C770 1002 735 1008 715 1030 C700 1052 660 1068 600 1080 C520 1094 440 1100 395 1098 C368 1096 352 1076 350 1046 C348 1005 330 955 322 905 C330 870 350 840 364 815 C372 800 388 798 396 812 C402 824 396 836 388 838" />
+                <path class="trace-jaw" pathLength="1" d="M392 828 C405 805 425 795 450 798 C500 803 540 812 565 826 C585 850 598 880 612 910 C622 935 632 952 645 958 C660 962 674 952 678 935 C684 900 684 860 676 830 C668 800 652 770 632 747 C605 718 585 695 560 675 C540 650 528 625 517 603 C510 578 506 550 503 524 C470 530 420 548 374 553 C340 552 305 540 287 517 C262 485 248 440 251 402 C256 340 268 285 287 244" />
+                <path class="trace-ear" pathLength="1" d="M460 158 C440 230 425 300 431 359 C440 430 465 480 489 517" />
+                <path class="trace-eye" pathLength="1" d="M704 481 m-42 0 a42 42 0 1 0 84 0 a42 42 0 1 0 -84 0" />
+              </svg>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
 
@@ -1840,6 +1999,32 @@
       }
 
       new ResizeObserver(shapeHero).observe(hero);
+
+      // Hidden elephant: once the section is in view, pause so the reader can look,
+      // then trace the head in the logo's negative space and reveal the answer.
+      const elephantBand = document.querySelector('.elephant-band');
+      const TRACE_DELAY = 2600;
+      const TRACE_TIME = 9800;
+      let traceTimers = [];
+
+      function runTrace(delay) {
+        traceTimers.forEach(clearTimeout);
+        elephantBand.classList.remove('is-tracing', 'is-revealed');
+        void elephantBand.offsetWidth;
+        traceTimers = [
+          setTimeout(() => elephantBand.classList.add('is-tracing'), delay),
+          setTimeout(() => elephantBand.classList.add('is-revealed'), delay + TRACE_TIME)
+        ];
+      }
+
+      new IntersectionObserver((entries, observer) => {
+        if (entries[0].isIntersecting) {
+          runTrace(TRACE_DELAY);
+          observer.disconnect();
+        }
+      }, { threshold: 0.5 }).observe(elephantBand);
+
+      document.querySelector('.elephant-replay').addEventListener('click', () => runTrace(400));
     </script>
   </body>
 </html>
